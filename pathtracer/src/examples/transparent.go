@@ -31,7 +31,7 @@ func RenderTransparent() {
 	camera := LookAt(V(3, 3, 3), V(0, 0, 0.5), V(0, 0, 1), 50)
 
 	// render the scene
-	sampler := Sampler{3, 16}
+	sampler := Sampler{3, 16, true}
 	renderer := NewRenderer(&scene, &camera, &sampler, 32, 500, 500)
 	renderer.Render("transparent.png", ColorChannel)
 }

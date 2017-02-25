@@ -42,7 +42,7 @@ func (r *Renderer) run() {
 		go func(i int) {
 			rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 			for y := i; y < buf.H; y += r.NumCPU {
-				for x := 0; x < buf.H; x++ {
+				for x := 0; x < buf.W; x++ {
 					// stratified subsampling
 					for u := 0; u < sppRoot; u++ {
 						for v := 0; v < sppRoot; v++ {

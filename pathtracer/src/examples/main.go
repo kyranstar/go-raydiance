@@ -1,10 +1,14 @@
-package main 
+package main
 
 import (
-
+	"log"
+	"net/http"
+	_ "net/http/pprof"
 )
 
 func main() {
-	RenderTransparent()
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
+	RenderSpheres()
 }
-

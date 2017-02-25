@@ -8,6 +8,7 @@ import (
 type Sampler struct {
 	MaxBounces      int
 	FirstHitSamples int
+	SampleAllLights bool
 }
 
 type BounceType uint8
@@ -79,11 +80,17 @@ func (s *Sampler) sampleLights(scene *Scene, n Ray, rnd *rand.Rand) Color {
 	if nLights == 0 {
 		return Black
 	}
-
-	// pick a random light
-	light := scene.Lights[rand.Intn(nLights)]
-	return s.sampleLight(scene, n, rnd, light).MulScalar(float64(nLights))
-
+	if s.SampleAllLights {
+		c := Black
+		for _, light := range scene.Lights {
+			c = c.Add(s.sampleLight(scene, n, rnd, light))
+		}
+		return c
+	} else {
+		// pick a random light
+		light := scene.Lights[rand.Intn(nLights)]
+		return s.sampleLight(scene, n, rnd, light).MulScalar(float64(nLights))
+	}
 }
 
 func (s *Sampler) sampleLight(scene *Scene, n Ray, rnd *rand.Rand, light Shape) Color {

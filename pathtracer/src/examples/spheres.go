@@ -3,18 +3,19 @@ package main
 import . "pt"
 
 var materials = []Material{
-	GlossyMaterial(HexColor(0x730046), 1.4, Radians(1)),
-	GlossyMaterial(HexColor(0xBFBB11), 1.4, Radians(2)),
-	GlossyMaterial(HexColor(0xFFC200), 1.4, Radians(3)),
-	GlossyMaterial(HexColor(0xE88801), 1.4, Radians(4)),
-	GlossyMaterial(HexColor(0xC93C00), 1.4, Radians(5)),
+	GlossyMaterial(HexColor(0x730046), 1.4, Radians(3)),
+	GlossyMaterial(HexColor(0xBFBB11), 1.4, Radians(0.1)),
+	GlossyMaterial(HexColor(0xFFC200), 1.4, Radians(1)),
+	LightMaterial(White, 3),
+	GlossyMaterial(HexColor(0xE88801), 1.4, Radians(2)),
+	GlossyMaterial(HexColor(0xC93C00), 1.4, Radians(3)),
 }
 
 func sphere(scene *Scene, previous, center Vector, radius float64, depth int) {
 	if depth <= 0 {
 		return
 	}
-	material := materials[(depth+5)%len(materials)]
+	material := materials[(depth)%len(materials)]
 	scene.Add(NewSphere(center, radius, material))
 	r2 := radius / 2.5
 	offset := radius + r2
@@ -47,13 +48,13 @@ func sphere(scene *Scene, previous, center Vector, radius float64, depth int) {
 
 func RenderSpheres() {
 	scene := Scene{}
-	scene.Color = HexColor(0xFFFFFF)
+	scene.Color = HexColor(0x111111)
 	sphere(&scene, Vector{}, Vector{}, 1, 6)
-	scene.Add(NewSphere(Vector{0, 0, 6}, 0.5, LightMaterial(White, 1)))
+//	scene.Add(NewSphere(Vector{0, 0, 6}, 0.5, LightMaterial(White, 8)))
 	scene.Compile()
 	
 	camera := LookAt(Vector{3.8, 1.75, 1}, Vector{1, 1, 0}, Vector{0, 0, 1}, 45)
-	sampler := Sampler{4, 4}
-	renderer := NewRenderer(&scene, &camera, &sampler, 16, 1000, 1000)
+	sampler := Sampler{4, 4, true}
+	renderer := NewRenderer(&scene, &camera, &sampler, 64, 2000, 1300)
 	renderer.Render("spheres.png", ColorChannel)
 }

@@ -43,7 +43,7 @@ func frame() {
 	scene.Compile()
 	fovy := 40.0
 	camera := LookAt(eye, center, up, fovy)
-	sampler := Sampler{4, 4}
+	sampler := Sampler{4, 4, true}
 	renderer := NewRenderer(&scene, &camera, &sampler, 2, 500, 500)
 	renderer.Render("beads.png", ColorChannel)
 }
