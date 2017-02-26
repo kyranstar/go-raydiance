@@ -22,12 +22,15 @@ func (a Vector) Cross(b Vector) Vector {
 	return Vector{x, y, z}
 }
 func (a Vector) Length() float64 {
-	return math.Sqrt(a.X*a.X + a.Y*a.Y + a.Z*a.Z)
+	return math.Sqrt(LengthSq())
+}
+func (a Vector) LengthSq() float64 {
+	return a.X*a.X + a.Y*a.Y + a.Z*a.Z
 }
 
 func (a Vector) Normalize() Vector {
-	d := a.Length()
-	return Vector{a.X / d, a.Y / d, a.Z / d}
+	invsqrt := FastInvSqrt(LengthSq())
+	return Vector{a.X * invsqrt, a.Y * invsqrt, a.Z * invsqrt}
 }
 
 func (a Vector) Negate() Vector {

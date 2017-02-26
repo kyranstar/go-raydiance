@@ -115,7 +115,7 @@ func (s *Sampler) sampleLight(scene *Scene, n Ray, rnd *rand.Rand, light Shape) 
 		y := rnd.Float64()*2 - 1
 		if x*x+y*y <= 1 {
 			l := center.Sub(n.Origin).Normalize()
-			u := l.Cross(RandomUnitVector(rnd)).Normalize()
+			u := l.Cross(RandomUnitVector(rnd))
 			v := l.Cross(u)
 			point = Vector{}
 			point = point.Add(u.MulScalar(x * radius))
